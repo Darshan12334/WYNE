@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState } from "react";
+import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/Footer";
+import Slider from "./components/Slider/Slider";
+import Homepage from "./pages/Homepage/Homepage";
+import Predict from "./pages/Predict/Predict";
+
 
 function App() {
+  const [v, setV] = useState(0.5);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+=      <Navbar />
+
+      <Routes>
+        {/* Home Route */}
+        <Route
+          path="/"
+          element={
+            <>
+              <Homepage />
+              
+            </>
+          }
+        />
+
+        {/* Predict Route */}
+        <Route path="/predict" element={<Predict />} />
+      </Routes>
+
+      <Footer />
+    </BrowserRouter>
   );
 }
 
 export default App;
+
+
+
+
+
+
+
