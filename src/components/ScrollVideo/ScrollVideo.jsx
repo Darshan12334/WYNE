@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { DRINK_VARIANTS, FRAME_CONFIG } from "../../constants/drinks";
+import { DRINK_VARIANTS} from "../../constants/drinks";
 import { useFrameSequenceCanvas } from "../../hooks/useFrameSequenceCanvas";
 import { VariantNavigation } from "./VariantNavigation";
 import "./ScrollVideo.css";
