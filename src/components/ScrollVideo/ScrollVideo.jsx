@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { DRINK_VARIANTS} from "../../constants/drinks";
 import { useFrameSequenceCanvas } from "../../hooks/useFrameSequenceCanvas";
 import { VariantNavigation } from "./VariantNavigation";
+import { Link } from "react-router-dom";
 import "./ScrollVideo.css";
 
 export default function ScrollVideo() {
@@ -49,6 +50,13 @@ export default function ScrollVideo() {
 					<div className="scroll-video-lower"  >{currentVariant.subtitle}</div>
 					
 					<div className="scroll-video-para">{currentVariant.description}</div>
+
+					{/* Predict CTA */}
+					<div className="scroll-video-cta">
+						<Link to="/predict" className="predict-cta-btn" style={{ background: currentVariant.accentColor }}>
+							Predict Quality
+						</Link>
+					</div>
 
 					{/* Variant Navigation */}
 					<VariantNavigation

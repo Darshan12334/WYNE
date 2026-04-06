@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import './Navbar.css';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, LogOut, User } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, logout, setAuthModalOpen } = useAuth();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -13,7 +15,11 @@ const Navbar = () => {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Predict', path: '/predict' },
-    { name: 'Discover', path: '/discover' }
+    { name: 'Discover', path: '/discover' },
+    ...(user ? [
+      { name: 'Dashboard', path: '/dashboard' },
+      { name: 'History', path: '/history' }
+    ] : []),
   ];
 
   return (
@@ -39,9 +45,20 @@ const Navbar = () => {
               </li>
             ))}
             <li className="nav-item">
-              <NavLink to="/login">
-                <button className="nav-login-btn">Login</button>
-              </NavLink>
+              {user ? (
+                <div className="nav-user-profile">
+                  {user.photoURL ? (
+                    <img src={user.photoURL} alt="Profile" className="nav-avatar" referrerPolicy="no-referrer" />
+                  ) : (
+                    <div className="nav-avatar-placeholder"><User size={16} /></div>
+                  )}
+                  <button className="nav-logout-btn" onClick={logout}>
+                    <LogOut size={16} />
+                  </button>
+                </div>
+              ) : (
+                <button className="nav-login-btn" onClick={() => setAuthModalOpen(true)}>Login</button>
+              )}
             </li>
           </ul>
 
@@ -74,11 +91,18 @@ const Navbar = () => {
             </li>
           ))}
           <li className="mobile-nav-item">
-            <NavLink to="/login" onClick={() => setIsOpen(false)}>
-              <button className="mobile-nav-login-btn">
+            {user ? (
+              <div className="mobile-user-info">
+                <span>{user.email}</span>
+                <button className="mobile-nav-logout-btn" onClick={() => { logout(); setIsOpen(false); }}>
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <button className="mobile-nav-login-btn" onClick={() => { setAuthModalOpen(true); setIsOpen(false); }}>
                 Login
               </button>
-            </NavLink>
+            )}
           </li>
         </ul>
       </div>
