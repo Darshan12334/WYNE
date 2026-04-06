@@ -11,17 +11,27 @@ function History() {
   const [expanded, setExpanded] = useState(null);
 
   useEffect(() => {
-    if (!user) return;
+    console.log("History useEffect triggered, user:", user?.uid);
+    if (!user) {
+      console.log("No user found in History, skipping fetch");
+      return;
+    }
 
     const fetchHistory = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || "https://wyne-backend.onrender.com"}/history/${user.uid}`);
-        if (!res.ok) throw new Error("Failed to fetch history");
+        const url = `${import.meta.env.VITE_API_BASE_URL || "https://wyne-backend.onrender.com"}/history/${user.uid}`;
+        console.log("Fetching from:", url);
+        const res = await fetch(url);
+        console.log("Response status:", res.status);
+        if (!res.ok) throw new Error(`Server error: ${res.status}`);
         const data = await res.json();
+        console.log("Data received:", data);
         setHistory(data.history || []);
       } catch (err) {
-        setError("Could not load history. Please check if the backend is live at https://wyne-backend.onrender.com");
+        console.error("History fetch error:", err);
+        setError(`Could not load history: ${err.message}`);
       } finally {
+        console.log("Ending loading state in History");
         setLoading(false);
       }
     };

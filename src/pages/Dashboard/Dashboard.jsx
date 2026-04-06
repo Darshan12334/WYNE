@@ -26,19 +26,28 @@ const Dashboard = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        console.log("Dashboard useEffect triggered, user:", user?.uid);
         const fetchHistory = async () => {
-            if (!user) return;
+            if (!user) {
+                console.log("No user found in Dashboard, skipping fetch");
+                return;
+            }
             try {
-                const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || "https://wyne-backend.onrender.com"}/history/${user.uid}`);
-                if (!response.ok) throw new Error("Failed to fetch history");
+                const url = `${import.meta.env.VITE_API_BASE_URL || "https://wyne-backend.onrender.com"}/history/${user.uid}`;
+                console.log("Fetching from:", url);
+                const response = await fetch(url);
+                console.log("Response status:", response.status);
+                if (!response.ok) throw new Error(`Server error: ${response.status}`);
                 const result = await response.json();
+                console.log("Data received:", result);
                 const history = result.history || [];
                 setData(history);
                 processData(history);
             } catch (error) {
                 console.error("Failed to fetch history:", error);
-                setError("Could not load dashboard data. Please check your connection or backend status.");
+                setError(`Could not load dashboard data: ${error.message}`);
             } finally {
+                console.log("Ending loading state");
                 setLoading(false);
             }
         };
