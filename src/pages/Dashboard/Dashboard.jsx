@@ -23,18 +23,21 @@ const Dashboard = () => {
     const [scatterData, setScatterData] = useState([]);
     const [insights, setInsights] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchHistory = async () => {
             if (!user) return;
             try {
-                const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"}/history/${user.uid}`);
+                const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || "https://wyne-backend.onrender.com"}/history/${user.uid}`);
+                if (!response.ok) throw new Error("Failed to fetch history");
                 const result = await response.json();
                 const history = result.history || [];
                 setData(history);
                 processData(history);
             } catch (error) {
                 console.error("Failed to fetch history:", error);
+                setError("Could not load dashboard data. Please check your connection or backend status.");
             } finally {
                 setLoading(false);
             }
@@ -133,6 +136,19 @@ const Dashboard = () => {
                 animate="visible"
                 className="max-w-7xl mx-auto space-y-8"
             >
+                {/* Error Message */}
+                {error && (
+                    <motion.div
+                        variants={itemVariants}
+                        className="bg-red-500/10 border border-red-500/20 p-4 rounded-xl text-red-400 text-center text-sm backdrop-blur-md"
+                    >
+                        {error}
+                        <div className="mt-2 text-xs opacity-70">
+                            Check if the backend is live at <a href="https://wyne-backend.onrender.com" target="_blank" rel="noreferrer" className="underline">https://wyne-backend.onrender.com</a>
+                        </div>
+                    </motion.div>
+                )}
+
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                     <div>

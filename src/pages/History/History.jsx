@@ -15,12 +15,12 @@ function History() {
 
     const fetchHistory = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"}/history/${user.uid}`);
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || "https://wyne-backend.onrender.com"}/history/${user.uid}`);
         if (!res.ok) throw new Error("Failed to fetch history");
         const data = await res.json();
         setHistory(data.history || []);
       } catch (err) {
-        setError("Could not load history. Please try again.");
+        setError("Could not load history. Please check if the backend is live at https://wyne-backend.onrender.com");
       } finally {
         setLoading(false);
       }
