@@ -17,8 +17,10 @@ const AuthModal = () => {
   if (!isAuthModalOpen) return null;
 
   const handleAuthResult = (user) => {
-    const adminEmails = import.meta.env.VITE_ADMIN_EMAIL ? import.meta.env.VITE_ADMIN_EMAIL.split(',').map(e => e.trim()) : [];
-    if (user && adminEmails.includes(user.email)) {
+    const adminEmails = import.meta.env.VITE_ADMIN_EMAIL 
+      ? import.meta.env.VITE_ADMIN_EMAIL.split(',').map(e => e.trim()) 
+      : ["darshansingh8270@gmail.com", "arjunalearns@gmail.com", "princesapariya108@gmail.com"];
+    if (user && user.email && adminEmails.map(e => e.toLowerCase()).includes(user.email.toLowerCase())) {
       navigate('/admin');
     }
   };
