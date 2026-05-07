@@ -12,7 +12,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchLogs = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/admin/logs`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL || "https://wyne-backend.onrender.com"}/admin/logs`, {
           params: { admin_email: user.email }
         });
         if (response.data.error) {

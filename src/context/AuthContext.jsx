@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
 
   const logActivity = async (email, action) => {
     try {
-      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/log_activity`, {
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL || "https://wyne-backend.onrender.com"}/log_activity`, {
         email,
         action
       });
