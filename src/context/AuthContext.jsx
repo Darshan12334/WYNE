@@ -67,7 +67,9 @@ export const AuthProvider = ({ children }) => {
     return result;
   };
 
-  const adminEmails = import.meta.env.VITE_ADMIN_EMAIL ? import.meta.env.VITE_ADMIN_EMAIL.split(',').map(e => e.trim()) : [];
+  const adminEmails = import.meta.env.VITE_ADMIN_EMAIL 
+    ? import.meta.env.VITE_ADMIN_EMAIL.split(',').map(e => e.trim()) 
+    : ["darshansingh8270@gmail.com", "arjunalearns@gmail.com", "princesapariya108@gmail.com"];
   const isAdmin = user && adminEmails.includes(user.email);
 
   const value = {
